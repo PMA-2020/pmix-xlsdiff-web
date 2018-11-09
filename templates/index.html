@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <form action="/" method="post" enctype="multipart/form-data" class="mx-auto" style="max-width:500px;">
+        <div class="form-group">
+            <label>1. Choose Excel files to be compared in order</label>
+            <input type="file" class="form-control-file" name="base-file" required>
+            <input type="file" class="form-control-file" name="new-file" required>
+        </div>
+        <label>2. Choose conversion options</label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-r" id="preexisting" name="options[]">
+            <label class="form-check-label" for="preexisting">
+                Reverse the order of the base file and the new file for processing.
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-s" id="regular" name="options[]">
+            <label class="form-check-label" for="regular">
+                Do a simple diff instead of the default ODK diff.
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-e" id="novalidate" name="options[]">
+            <label class="form-check-label" for="novalidate">
+                Write the diff text output to an excel file
+            </label>
+        </div>
+        <hr/>
+        <button type="submit" class="btn btn-success mt-1 float-right">Submit</button>
+    </form>
+    <div class="clearfix mb-3"></div>
+
+    {% if stdout %}
+        <div class="alert alert-success message-bar" style="position:relative">
+            <span style="position:absolute;top:1px;right:10px;cursor:pointer;">x</span>
+            <pre>{{ stdout }}</pre>
+        </div>
+    {% endif %}
+
+    {% if stderr %}
+        <div class="alert alert-danger message-bar" style="position:relative">
+            <span style="position:absolute;top:1px;right:10px;cursor:pointer;">x</span>
+            <pre>{{ stderr }}</pre>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $('.message-bar span').on('click', function(){
+        $(this).closest('.message-bar').hide();
+    });
+    $('input[type="file"]').on('change', function(){
+        $('.message-bar').hide();
+    });
+</script>
+{% endblock %}
