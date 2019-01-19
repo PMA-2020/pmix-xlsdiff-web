@@ -4,8 +4,8 @@
     <form action="/" method="post" enctype="multipart/form-data" class="mx-auto" style="max-width:500px;">
         <div class="form-group">
             <label>1. Choose Excel files to be compared in order</label><br>
-            <label>Original form</label><input type="file" class="form-control-file" name="base-file" required>
-            <label class="mt-2">New form</label><input type="file" class="form-control-file" name="new-file" required>
+            <label>Form1</label><input type="file" class="form-control-file" id="file1" name="file1" required>
+            <label class="mt-2">Form2</label><input type="file" class="form-control-file" id="file2" name="file2" required>
         </div>
         <label>2. Choose conversion options</label>
         <div class="form-check">
@@ -27,7 +27,7 @@
             </label>
         </div>
         <hr/>
-        <button type="submit" class="btn btn-success mt-1 float-right">Submit</button>
+        <button type="submit" class="btn btn-success mt-1 float-right" id="btn-submit">Submit</button>
     </form>
     <div class="clearfix mb-3"></div>
 
@@ -45,10 +45,8 @@
         </div>
     {% endif %}
 
-    {% if new_file_path %}
+    {% if export %}
         <form id="form-export" method="POST" action="/export">
-            <input type="hidden" name="new_file_path" value="{{new_file_path}}">
-            <input type="hidden" name="new_file_name" value="{{new_file_name}}">
         </form>
     {% endif %}
 {% endblock %}

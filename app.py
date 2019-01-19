@@ -21,15 +21,14 @@ def index():
         return render_template('index.html')
     else:
         try:
-            base_file = upload_file(request.files['base-file'])
-            new_file = upload_file(request.files['new-file'])
-            new_file_name = secure_filename(request.files['new-file'].filename)
+            file1 = upload_file(request.files['file1'])
+            file2 = upload_file(request.files['file2'])
             options_list = request.form.getlist('options[]')
-            options = " ".join(options_list)
+            options = " ".join(options_list).replace('-e', '-e temp_uploads'+path_char+'result.xlsx')
 
-            command = "python -m pmix.xlsdiff "+base_file+" "+new_file+" "+options
+            command = "python -m pmix.xlsdiff "+file1+" "+file2+" "+options
             stdout, stderr = _run_background_process(command)
-            return render_template('index.html', stderr=stderr, stdout=stdout, new_file_path=new_file, new_file_name=new_file_name)
+            return render_template('index.html', stderr=stderr, stdout=stdout, export=True)
 
         except Exception as err:
             msg = 'An unexpected error occurred:\n\n' + str(err)
@@ -37,9 +36,9 @@ def index():
 
 @app.route('/export', methods=['POST'])
 def export():
-    new_file_path = request.form['new_file_path']
-    new_file_name = request.form['new_file_name']
-    return send_file(new_file_path, None, True, new_file_name)
+    upload_folder = basedir + path_char + 'temp_uploads'
+    file_path = os.path.join(upload_folder, "result.xlsx")
+    return send_file(file_path, None, True, "result.xlsx")
 
 if __name__ == '__main__':
     app.run(debug=True)
