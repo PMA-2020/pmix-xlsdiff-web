@@ -61,6 +61,8 @@
         $('.message-bar').hide();
     });
     $(function(){
+        console.log('detected browser language', navigator.language);
+        $('#browser-lang').html('(The language in the browser preference is '+navigator.language+')');
         if ($('#form-export').length > 0)
             $('#form-export').submit();
     });
