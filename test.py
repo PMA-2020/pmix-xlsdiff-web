@@ -25,13 +25,13 @@ browser.get(defaultUrls["dev"])
 file1 = str(Path("test/static/TestCase1/input/1.xlsx").resolve())
 file2 = str(Path("test/static/TestCase1/input/2.xlsx").resolve())
 if platform.system() == 'Windows':
-    file1_path_string = file1.replace("\\", "\\\\")
-    file2_path_string = file2.replace("\\", "\\\\")
+    file1 = file1.replace("\\", "\\\\")
+    file2 = file2.replace("\\", "\\\\")
 
 file1_uploader = browser.find_element_by_id("file1")
-file1_uploader.send_keys(file1_path_string)
+file1_uploader.send_keys(file1)
 file2_uploader = browser.find_element_by_id("file2")
-file2_uploader.send_keys(file2_path_string)
+file2_uploader.send_keys(file2)
 button_submit = browser.find_element_by_id("btn-submit")
 button_submit.click()
 
